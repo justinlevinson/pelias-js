@@ -1,4 +1,5 @@
-import Pelias from '../lib'
+import Pelias from '..'
+console.log(Pelias)
 
 var client = new Pelias()
 
