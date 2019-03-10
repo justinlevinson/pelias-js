@@ -17,4 +17,5 @@ export const SEARCH_ENDPOINT = "/v1/search?"
 
 // Query string params
 export const QS_TEXT = "text"
-
+export const QS_FOCUS_LAT = "focus.point.lat"
+export const QS_FOCUS_LONG = "focus.point.lon"
