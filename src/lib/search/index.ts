@@ -1,8 +1,9 @@
 /**
  * A fluent interface for forward geocoding in Pelias
  */
-import { QS_TEXT } from '/lib/constants'
+import { QS_TEXT } from '../constants'
 import { URLSearchParams } from "url";
+import { search } from '../fetch-utils/fetch'
 
 interface ISearchObject {
   searchTerm: string
@@ -12,24 +13,27 @@ interface ISearchObject {
 
 // TODO: take a formed search object so the use doesn't have to use the fluent setters
 
-export default function Search() {
-  if(!(this instanceof Search)) {
-    return new Search()
-  }
+class Search {
 
-  const _searchObject:ISearchObject = {
-    searchTerm: null
+  private _searchObject
+
+  constructor() {
+    this._searchObject = {
+      searchTerm: undefined
+    }
   }
 
   // The 'text' param for Pelias
-  Search.prototype.setSearchTerm = (searchTerm: string) => {
-    _searchObject.searchTerm = searchTerm
+  setSearchTerm = (searchTerm: string) => {
+    this._searchObject.searchTerm = searchTerm
     return this
   }
 
-  Search.prototype.execute = () => {
-    const query = buildSearchQueryString(_searchObject)
-    console.log(query)
+  execute = () => {
+    const query = buildSearchQueryString(this._searchObject)
+    search(query).then((response) => {
+      console.log(response)
+    })
   }
 }
 
@@ -41,5 +45,8 @@ const buildSearchQueryString = (searchObject: ISearchObject) => {
     paramsArray.push([QS_TEXT, searchObject.searchTerm])
   }
 
-  return URLSearchParams(paramsArray)
+  const searchParams = new URLSearchParams(paramsArray)
+    return searchParams.toString()
 }
+
+export default Search

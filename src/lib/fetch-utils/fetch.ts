@@ -2,6 +2,12 @@
  * Fetch utilities
  */
 
+import { BASE_URL, SEARCH_ENDPOINT } from '../constants'
+import fetch from 'node-fetch'
+
+export const search = (queryString: string) => {
+  return fetchGet(`${BASE_URL}${SEARCH_ENDPOINT}`, queryString)
+}
 
 // Fetch helpers
 const checkResponse = (response: any) => {
@@ -19,7 +25,10 @@ const getJson = (response: any) => {
 }
 
 const fetchGet = (url: string, queryString?: string ) => {
-  return fetch(url)
+
+  const fetchUrl = queryString ? `${url}${queryString}` : url
+
+  return fetch(fetchUrl)
     .then(checkResponse)
     .then(getJson)
 }

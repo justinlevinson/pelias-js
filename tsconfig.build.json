@@ -64,6 +64,6 @@
     "node_modules"
   ],
   "include": [
-    "lib/**/*"
+    "src/**/*"
   ]
 }

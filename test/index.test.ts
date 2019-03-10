@@ -1,4 +1,4 @@
-import Pelias from '../lib'
+import Pelias from '../lib/index'
 import { isTSAnyKeyword } from '@babel/types';
 
 describe('Class constructor', () => {
