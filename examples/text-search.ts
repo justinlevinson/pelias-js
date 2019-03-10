@@ -1,7 +1,7 @@
-import Pelias from '/'
+import Pelias from '../lib'
 
-const client = new Pelias()
+var client = new Pelias()
 
 client.search
   .setSearchTerm('ymca')
-  .get()
+  .execute()
