@@ -2,7 +2,7 @@
  * Fetch utilities
  */
 
-import { BASE_URL, SEARCH_ENDPOINT } from '../constants'
+import { BASE_URL, SEARCH_ENDPOINT } from '../../constants'
 import fetch from 'node-fetch'
 
 export const search = (queryString: string) => {
