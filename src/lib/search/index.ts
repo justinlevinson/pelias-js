@@ -50,11 +50,11 @@ class Search {
   }
 
   // Set a locale to search near - require both lat and long
-  setFocusPoint = (lat: string, long: string) => {
-    if(!isNumeric(lat) || !isNumeric(long)) {
+  setFocusPoint = (point: ICoordinate) => {
+    if(!isNumeric(point.lat) || !isNumeric(point.lon)) {
       throw new Error('Lat and long values should be numeric floating-point coordinates')
     }
-    this._searchObject.focusPoint = {lat: lat, lon: long}
+    this._searchObject.focusPoint = point
     return this
   }
 
@@ -95,10 +95,10 @@ class Search {
 
 // Search takes a GET request with a variety of query string params
 const buildSearchQueryString = (searchObject: ISearchObject) => {
-  const paramsArray = []
+  const paramsArray = [] as [string, string][]
 
   if(searchObject.searchTerm) {
-    paramsArray.push([Constants.QS_TEXT, searchObject.searchTerm])
+    paramsArray.push([Constants.QS_TEXT, searchObject.searchTerm] )
   }
 
   if(searchObject.focusPoint) {
@@ -111,7 +111,7 @@ const buildSearchQueryString = (searchObject: ISearchObject) => {
   }
 
   if(searchObject.boundaryCountry) {
-    paramsArray.push([Constants.QS_BOUNDARY_COUNTRY], searchObject.boundaryCountry)
+    paramsArray.push([Constants.QS_BOUNDARY_COUNTRY, searchObject.boundaryCountry])
   }
 
   if(searchObject.boundaryRectangle) {
