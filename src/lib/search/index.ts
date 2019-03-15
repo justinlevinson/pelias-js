@@ -4,14 +4,25 @@
 import * as Constants from '../constants'
 import { URLSearchParams } from "url";
 import { search } from '../util/fetch/fetch'
-import {isValidString, isNumeric, isValidBoundaryRectangle} from "../util/validate/validate";
+import {
+  isValidString,
+  isNumeric,
+  isValidBoundaryRectangle,
+  isValidBoundaryCircle,
+  isValidDataSources,
+  isValidLayers
+} from "../util/validate/validate";
 
 interface ISearchObject {
   searchTerm: string
-  focusPoint: ICoordinate
-  resultsLimit: string
-  boundaryCountry: string
-  boundaryRectangle: IBoundaryRectangle
+  focusPoint?: ICoordinate
+  resultsLimit?: string
+  boundaryCountry?: string
+  boundaryRectangle?: IBoundaryRectangle
+  boundaryCircle?: IBoundaryCircle
+  boundaryAdminArea?: string
+  dataSources?: string[]
+  layers?: string[]
 }
 
 interface IBoundaryRectangle {
@@ -19,6 +30,12 @@ interface IBoundaryRectangle {
   max_lat: string
   min_lon: string
   max_lon: string
+}
+
+interface IBoundaryCircle {
+  lat: string
+  lon: string
+  radius: string
 }
 
 interface ICoordinate {
@@ -76,12 +93,48 @@ class Search {
     return this
   }
 
-  // Restrict search to a boundary country
+  // Restrict search to a boundary rectangle
   setBoundaryRectangle = (boundaryRectangle: any) => {
     if(!isValidBoundaryRectangle(boundaryRectangle)) {
-      throw new Error('Boundary rectangle should be an object with keys min_lat, max_lat, min_long, max_long. Values should be floating-point coordinates')
+      throw new Error('Boundary rectangle should be an object with keys min_lat, max_lat, min_lon, max_lon. Values should be floating-point coordinates')
     }
     this._searchObject.boundaryRectangle = boundaryRectangle
+    return this
+  }
+
+  // Restrict search to a boundary circle
+  setBoundaryCircle = (boundaryCircle: any) => {
+    if(!isValidBoundaryCircle(boundaryCircle)) {
+      throw new Error('Boundary circle should be an object with keys lat, lon, and radius. Lat and lon should be floating-point coordinates, radius may be floating point or integer')
+    }
+    this._searchObject.boundaryCircle = boundaryCircle
+    return this
+  }
+
+  // Restrict search to a boundary admin area
+  setBoundaryAdminArea = (boundaryAdminArea: string) => {
+    if(!isValidString(boundaryAdminArea)) {
+      throw new Error('Boundary admin area should be a nonempty string')
+    }
+    this._searchObject.boundaryAdminArea = boundaryAdminArea
+    return this
+  }
+
+  // Restrict search to a specific data source
+  setDataSources = (dataSources: string[]) => {
+    if(!isValidDataSources(dataSources)) {
+      throw new Error('Data sources should be an array with one or more of: oa, osm, wof, gn')
+    }
+    this._searchObject.dataSources = dataSources
+    return this
+  }
+
+  // Restrict search to a specific layer
+  setLayers = (layers: string[]) => {
+    if(!isValidLayers(layers)) {
+      throw new Error('Data sources should be an array with one or more of: venue, address, street, neighbourhood, borough, localadmin, locality, county, macrocounty, region, macroregion, country, coarse')
+    }
+    this._searchObject.layers = layers
     return this
   }
 
@@ -119,6 +172,24 @@ const buildSearchQueryString = (searchObject: ISearchObject) => {
     paramsArray.push([Constants.QS_BOUNDARY_RECT_MAX_LAT, searchObject.boundaryRectangle.max_lat])
     paramsArray.push([Constants.QS_BOUNDARY_RECT_MIN_LON, searchObject.boundaryRectangle.min_lon])
     paramsArray.push([Constants.QS_BOUNDARY_RECT_MAX_LON, searchObject.boundaryRectangle.max_lon])
+  }
+
+  if(searchObject.boundaryCircle) {
+    paramsArray.push([Constants.QS_BOUNDARY_CIRCLE_LAT, searchObject.boundaryCircle.lat])
+    paramsArray.push([Constants.QS_BOUNDARY_CIRCLE_LON, searchObject.boundaryCircle.lon])
+    paramsArray.push([Constants.QS_BOUNDARY_CIRCLE_RADIUS, searchObject.boundaryCircle.radius])
+  }
+
+  if(searchObject.boundaryAdminArea) {
+    paramsArray.push([Constants.QS_BOUNDARY_ADMIN_AREA, searchObject.boundaryAdminArea])
+  }
+
+  if(searchObject.dataSources) {
+    paramsArray.push([Constants.QS_DATA_SOURCES, searchObject.dataSources.join(",")])
+  }
+
+  if(searchObject.layers) {
+    paramsArray.push([Constants.QS_LAYERS, searchObject.layers.join(",")])
   }
 
   const searchParams = new URLSearchParams(paramsArray)
