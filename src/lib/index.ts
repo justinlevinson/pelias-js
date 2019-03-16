@@ -8,8 +8,9 @@ class Pelias {
 
   search: Search
 
-  constructor() {
-    this.search = new Search()
+  // Subclasses handle validation of configuration
+  constructor(config: any) {
+    this.search = new Search(config)
   }
 }
 

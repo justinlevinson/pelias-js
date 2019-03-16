@@ -43,6 +43,10 @@ interface ICoordinate {
   lon: string
 }
 
+interface IConfig {
+  peliasUrl: string
+}
+
 // Auto-instantiate in case caller forgets 'new' so as not to pollute the global namespace
 
 // TODO: take a formed search object so the use doesn't have to use the fluent setters
@@ -50,11 +54,16 @@ interface ICoordinate {
 class Search {
 
   private _searchObject
+  private _baseUrl
 
-  constructor() {
+  constructor(config: IConfig) {
     this._searchObject = {
       searchTerm: undefined
     }
+    if(!('peliasUrl' in config)) {
+      throw new Error("peliasUrl must be specified in the constructor")
+    }
+    this._baseUrl = config.peliasUrl
   }
 
   // The 'text' param for Pelias
@@ -140,7 +149,7 @@ class Search {
 
   execute = () => {
     const query = buildSearchQueryString(this._searchObject)
-    return search(query).then((response) => {
+    return search(this._baseUrl, query).then((response) => {
       return(response)
     })
   }

@@ -2,11 +2,10 @@
  * Fetch utilities
  */
 
-import { BASE_URL, SEARCH_ENDPOINT } from '../../constants'
-import fetch from 'node-fetch'
+import { SEARCH_ENDPOINT } from '../../constants'
 
-export const search = (queryString: string) => {
-  return fetchGet(`${BASE_URL}${SEARCH_ENDPOINT}`, queryString)
+export const search = (baseUrl: string, queryString: string) => {
+  return fetchGet(`${baseUrl}${SEARCH_ENDPOINT}`, queryString)
 }
 
 // Fetch helpers
@@ -14,10 +13,6 @@ const checkResponse = (response: any) => {
   return response.ok
     ? response
     : Promise.reject(new Error('Error in fetch: ' + response.status))
-}
-
-const getText = (response: any) => {
-  return response.text()
 }
 
 const getJson = (response: any) => {
@@ -31,4 +26,7 @@ const fetchGet = (url: string, queryString?: string ) => {
   return fetch(fetchUrl)
     .then(checkResponse)
     .then(getJson)
+    .catch((error) => {
+      throw new Error(`Error fetching data: ${error}`)
+    })
 }
