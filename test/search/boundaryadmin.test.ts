@@ -9,20 +9,20 @@ describe('Boundary Admin Area', () => {
   })
 
   it('Throws on an empty string', () => {
-    const client = new Pelias()
+    const client = new Pelias({peliasUrl: "http://127.0.0.1:4000"})
     expect(() => {client.search.setBoundaryAdminArea("")}).toThrow()
   })
 
   it('Correctly sets an admin area', () => {
-    const client = new Pelias()
+    const client = new Pelias({peliasUrl: "http://127.0.0.1:4000"})
     client.search.setBoundaryAdminArea("whosonfirst:region:85688585").execute()
-    expect(search).toHaveBeenCalledWith("boundary.gid=whosonfirst%3Aregion%3A85688585")
+    expect(search).toHaveBeenCalledWith("http://127.0.0.1:4000","boundary.gid=whosonfirst%3Aregion%3A85688585")
   })
 
   it('Correctly sets an admin area and text', () => {
-    const client = new Pelias()
+    const client = new Pelias({peliasUrl: "http://127.0.0.1:4000"})
     client.search.setBoundaryAdminArea("whosonfirst:region:85688585").setSearchTerm("test").execute()
-    expect(search).toHaveBeenCalledWith("text=test&boundary.gid=whosonfirst%3Aregion%3A85688585")
+    expect(search).toHaveBeenCalledWith("http://127.0.0.1:4000","text=test&boundary.gid=whosonfirst%3Aregion%3A85688585")
   })
 })
 

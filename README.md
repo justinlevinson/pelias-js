@@ -156,3 +156,8 @@ Limits number of results returned. Defaults to 10. Accepts an integer.
 client.search
   .setResultsLimit(10)
 ```
+
+## License
+GPLv3
+
+
