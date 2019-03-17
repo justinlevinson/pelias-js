@@ -11,9 +11,20 @@ Under heavy development. Standard forward geocoding is implemented, the rest wil
     yarn install
     yarn build
 ```
-## Example
+
+## Setup
+`pelias-js` expects a configuration object at time of instantiation, with the format:
 ```
-   var client = new Pelias({peliasUrl: "http://YOUR_PELIAS_URL"})
+  {
+    peliasUrl: string
+  }
+```
+
+where peliasUrl is a string containing the URL, with protocol and port, to your Pelias instance.
+
+## Example Usage
+```
+   var client = new Pelias({peliasUrl: "http://YOUR_PELIAS_URL:4000"})
    
    client.search
      .setSearchTerm('ymca')
@@ -27,8 +38,10 @@ Under heavy development. Standard forward geocoding is implemented, the rest wil
      })
 ```
 
+Full examples are in the `examples` directory.
+
 ## Caveats for Node
-`pelias-js` works wherever you JS. It does use `fetch`, however - if you'd like to use it in a Node environment, you'll
+`pelias-js` works wherever you write JS. It does use `fetch`, however - if you'd like to use it in a Node environment, you'll
 need to polyfill it. A quick-and-dirty implementation with `node-fetch` might look like:
 
 TypeScript: 
@@ -39,4 +52,107 @@ TypeScript:
 Standard JS: 
 ```
 global.fetch = require('node-fetch')
+```
+
+## API: Search - forward geocoder
+`pelias-js` implements all functionality that Pelias provides. The section below will provide examples and a short description
+of each field, for full details please visit the official Pelias docs at: https://github.com/pelias/documentation/blob/master/search.md
+
+Search implements a fluent interface, so chaining query terms is perfectly acceptable. The geocoder will perform the search
+when the `.execute()` function is invoked, e.g.
+```
+client.search
+  .setSearchTerm('ymca')
+  .setDataSources(['OA', 'OSM']
+  .execute()
+```
+
+Each `set` function performs some basic validation on its input prior to actually sending the request to Pelias and will throw an Error if it fails.
+
+`execute()` returns a Promise that will resolve to the Pelias response. Non-200 responses will throw an Error.
+
+### Search Term (required)
+The string to search for. 
+```
+client.search
+  .setSearchTerm('ymca')
+```
+
+
+### Boundary administration area
+Restricts search results to a particular area. Takes a Who's On First `gid` as a string, found using the Spelunker: http://spelunker.whosonfirst.org/
+```
+client.search
+  setBoundaryAdminArea("whosonfirst:region:85688585")
+```
+
+### Boundary circle
+Accepts an object with a `lat`, `lon`, and `radius`. This will restrict search results to a circle with `radius` kilometers drawn around the specified coordinate.
+```
+client.search
+  setBoundaryCircle({lat: "45.523064", lon: "-122.676483", radius: 10})
+```
+
+### Boundary country
+Accepts a string with the alpha-2 or alpha-3 ISO-3166 country code.
+```
+client.search
+  setBoundaryCountry("GBR")
+```
+
+### Boundary rectangle
+Accepts an object with a `max_lat`, `max_lon`, `min_lat`, and `min_long` and restricts search results to the area formed by this rectangle.
+```
+client.search
+  setBoundaryCircle({lat: "45.523064", lon: "-122.676483", radius: 10})
+```
+
+### Data sources
+Filters search results by data source. Accepts an array of strings containing one or more of (case insensitive):
+- `osm` (OpenStreetMap)
+- `oa` (OpenAddresses)
+- `wof` (Who's On First)
+- `gn` (GeoNames)
+
+```
+client.search
+  setDataSources(['OA', 'OSM'])
+```
+
+### Focus point
+Sets a coordinate to use as a base location. Search results will be sorted, in part, by proximity to this point. 
+Accepts an object of form {`lat`: string, `lon`: string} with floating-point values.
+
+```
+client.search
+  setFocusPoint({lat: "01.2345", lon: "67.8901"}
+```
+
+### Layers
+Filters search results by place type, derived from Who's On First. Accepts an array of strings containing one or more of (case insensitive):
+- `venue` 	points of interest, businesses, things with walls
+- `address` 	places with a street address
+- `street` 	streets,roads,highways
+- `neighbourhood` 	social communities, neighbourhoods
+- `borough` 	a local administrative boundary, currently only used for New York City
+- `localadmin` 	local administrative boundaries
+- `locality` 	towns, hamlets, cities
+- `county` 	official governmental area; usually bigger than a locality, almost always smaller than a region
+- `macrocounty` 	a related group of counties. Mostly in Europe.
+- `region` 	states and provinces
+- `macroregion` 	a related group of regions. Mostly in Europe
+- `country` 	places that issue passports, nations, nation-states
+- `coarse` 	alias for simultaneously using all administrative layers (everything except venue and address)
+
+```
+client.search
+  .setLayers(['address', 'borough'])
+```
+
+### Results limit
+Limits number of results returned. Defaults to 10. Accepts an integer.
+
+```
+client.search
+  .setResultsLimit(10)
 ```
