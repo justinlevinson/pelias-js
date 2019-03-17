@@ -1,4 +1,4 @@
-import Pelias from '..'
+import Pelias from '../src/index'
 (global as any).fetch = require('node-fetch')
 
 var client = new Pelias({peliasUrl: "206.81.2.106:4000"})
