@@ -15,7 +15,7 @@ describe('Results Limit', () => {
 
   it('Correctly sets a results limit', () => {
     const client = new Pelias()
-    client.search.setResultsLimit(5).execute()
+    client.search.setResultsLimit("5").execute()
     expect(search).toHaveBeenCalledWith("size=5")
   })
 })
