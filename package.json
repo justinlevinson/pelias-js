@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A JS client for the Pelias geocoder",
   "main": "index.ts",
-  "repository": "",
+  "repository": "https://github.com/justinlevinson/pelias-js",
   "author": "Justin Levinson (justinlevinson)",
   "license": "GPL-3.0-or-later",
   "private": false,
