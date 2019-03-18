@@ -2,7 +2,6 @@
  * A fluent interface for forward geocoding in Pelias
  */
 import * as Constants from '../constants'
-import { URLSearchParams } from "url";
 import { search } from '../util/fetch/fetch'
 import {
   isValidString,
@@ -201,8 +200,12 @@ const buildSearchQueryString = (searchObject: ISearchObject) => {
     paramsArray.push([Constants.QS_LAYERS, searchObject.layers.join(",")])
   }
 
-  const searchParams = new URLSearchParams(paramsArray)
-    return searchParams.toString()
+  const searchParams = paramsArray.map((keyValPair: string[]) => {
+    return `${encodeURIComponent(keyValPair[0])}=${encodeURIComponent(keyValPair[1])}`
+  }).join('&')
+
+  return searchParams
+
 }
 
 export default Search
