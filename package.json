@@ -1,6 +1,6 @@
 {
   "name": "pelias-js",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "A JS client for the Pelias geocoder",
   "main": "index.ts",
   "repository": "https://github.com/justinlevinson/pelias-js",
