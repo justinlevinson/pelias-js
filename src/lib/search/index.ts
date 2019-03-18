@@ -205,7 +205,7 @@ const buildSearchQueryString = (searchObject: ISearchObject) => {
   }).join('&')
 
   return searchParams
-  
+
 }
 
 export default Search

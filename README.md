@@ -7,9 +7,21 @@ Under heavy development. Standard forward geocoding is implemented, the rest wil
 [ circa 1993 underconstruction.gif ]
 
 ## Installation
+There is an NPM package with the same name, `pelias-js`, so you can just:
+
 ```
-    yarn install
-    yarn build
+  yarn add pelias-js
+```
+
+and then in your JS file
+```
+  import Pelias from 'pelias-js';
+```
+
+or, if you prefer to build from source:
+```
+  yarn install
+  yarn build
 ```
 
 ## Setup
