@@ -28,11 +28,12 @@ or, if you prefer to build from source:
 `pelias-js` expects a configuration object at time of instantiation, with the format:
 ```
   {
-    peliasUrl: string
+    peliasUrl: string,
+    apiKey: string /* optional */
   }
 ```
 
-where peliasUrl is a string containing the URL, with protocol and port, to your Pelias instance.
+where peliasUrl is a string containing the URL, with protocol and port, to your Pelias instance. If you are using a hosted Pelias-compatible service such as [geocode.earth](https://geocode.earth/) you will also need to provide an API key.
 
 ## Example Usage
 ```

@@ -13,7 +13,8 @@ import {
 } from "../util/validate/validate";
 
 interface ISearchObject {
-  searchTerm: string
+  searchTerm: string,
+  apiKey: string,
   focusPoint?: ICoordinate
   resultsLimit?: string
   boundaryCountry?: string
@@ -43,7 +44,8 @@ interface ICoordinate {
 }
 
 interface IConfig {
-  peliasUrl: string
+  peliasUrl: string,
+  apiKey?: string
 }
 
 // Auto-instantiate in case caller forgets 'new' so as not to pollute the global namespace
@@ -57,7 +59,8 @@ class Search {
 
   constructor(config: IConfig) {
     this._searchObject = {
-      searchTerm: undefined
+      searchTerm: undefined,
+      apiKey: config.apiKey || undefined
     }
     if(!('peliasUrl' in config)) {
       throw new Error("peliasUrl must be specified in the constructor")
@@ -160,6 +163,10 @@ const buildSearchQueryString = (searchObject: ISearchObject) => {
 
   if(searchObject.searchTerm) {
     paramsArray.push([Constants.QS_TEXT, searchObject.searchTerm] )
+  }
+
+  if(searchObject.apiKey) {
+    paramsArray.push([Constants.QS_API_KEY, searchObject.apiKey])
   }
 
   if(searchObject.focusPoint) {
