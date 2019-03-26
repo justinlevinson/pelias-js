@@ -45,7 +45,7 @@ interface ICoordinate {
 
 interface IConfig {
   peliasUrl: string,
-  apiKey: string
+  apiKey?: string
 }
 
 // Auto-instantiate in case caller forgets 'new' so as not to pollute the global namespace
