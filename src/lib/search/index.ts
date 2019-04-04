@@ -12,6 +12,8 @@ import {
   isValidLayers
 } from "../util/validate/validate";
 
+import * as parameterSet from "../util/parameter-set/parameter-set"
+
 interface ISearchObject {
   searchTerm: string,
   apiKey: string,
@@ -68,14 +70,8 @@ class Search {
     this._baseUrl = config.peliasUrl
   }
 
-  // The 'text' param for Pelias
-  setSearchTerm = (searchTerm: string) => {
-    if(!isValidString(searchTerm)) {
-      throw new Error('Search term should be a nonempty string')
-    }
-    this._searchObject.searchTerm = searchTerm
-    return this
-  }
+  // The 'text' param for Peliasyarn t
+  setSearchTerm = parameterSet.setSearchTerm.bind(this)
 
   // Set a locale to search near - require both lat and long
   setFocusPoint = (point: ICoordinate) => {
