@@ -3,14 +3,7 @@
  */
 import * as Constants from '../constants'
 import { search } from '../util/fetch/fetch'
-import {
-  isValidString,
-  isNumeric,
-  isValidBoundaryRectangle,
-  isValidBoundaryCircle,
-  isValidDataSources,
-  isValidLayers
-} from "../util/validate/validate";
+import { IConfig, IBoundaryCircle, ICoordinate, IBoundaryRectangle } from '../interfaces'
 
 import * as parameterSet from "../util/parameter-set/parameter-set"
 
@@ -25,29 +18,6 @@ interface ISearchObject {
   boundaryAdminArea?: string
   dataSources?: string[]
   layers?: string[]
-}
-
-interface IBoundaryRectangle {
-  min_lat: string
-  max_lat: string
-  min_lon: string
-  max_lon: string
-}
-
-interface IBoundaryCircle {
-  lat: string
-  lon: string
-  radius: string
-}
-
-interface ICoordinate {
-  lat: string
-  lon: string
-}
-
-interface IConfig {
-  peliasUrl: string,
-  apiKey?: string
 }
 
 // Auto-instantiate in case caller forgets 'new' so as not to pollute the global namespace
@@ -70,80 +40,15 @@ class Search {
     this._baseUrl = config.peliasUrl
   }
 
-  // The 'text' param for Peliasyarn t
-  setSearchTerm = parameterSet.setSearchTerm.bind(this)
-
-  // Set a locale to search near - require both lat and long
-  setFocusPoint = (point: ICoordinate) => {
-    if(!isNumeric(point.lat) || !isNumeric(point.lon)) {
-      throw new Error('Lat and long values should be numeric floating-point coordinates')
-    }
-    this._searchObject.focusPoint = point
-    return this
-  }
-
-  // Set a locale to search near - require both lat and long
-  setResultsLimit = (limit: number) => {
-    if(!Number.isInteger(limit)) {
-      throw new Error('Limit should be an integer')
-    }
-    this._searchObject.resultsLimit = limit
-    return this
-  }
-
-  // Restrict search to a boundary country
-  setBoundaryCountry = (boundaryCountry: string) => {
-    if(!isValidString(boundaryCountry)) {
-      throw new Error('Boundary country should be a nonempty string')
-    }
-    this._searchObject.boundaryCountry = boundaryCountry
-    return this
-  }
-
-  // Restrict search to a boundary rectangle
-  setBoundaryRectangle = (boundaryRectangle: any) => {
-    if(!isValidBoundaryRectangle(boundaryRectangle)) {
-      throw new Error('Boundary rectangle should be an object with keys min_lat, max_lat, min_lon, max_lon. Values should be floating-point coordinates')
-    }
-    this._searchObject.boundaryRectangle = boundaryRectangle
-    return this
-  }
-
-  // Restrict search to a boundary circle
-  setBoundaryCircle = (boundaryCircle: any) => {
-    if(!isValidBoundaryCircle(boundaryCircle)) {
-      throw new Error('Boundary circle should be an object with keys lat, lon, and radius. Lat and lon should be floating-point coordinates, radius may be floating point or integer')
-    }
-    this._searchObject.boundaryCircle = boundaryCircle
-    return this
-  }
-
-  // Restrict search to a boundary admin area
-  setBoundaryAdminArea = (boundaryAdminArea: string) => {
-    if(!isValidString(boundaryAdminArea)) {
-      throw new Error('Boundary admin area should be a nonempty string')
-    }
-    this._searchObject.boundaryAdminArea = boundaryAdminArea
-    return this
-  }
-
-  // Restrict search to a specific data source
-  setDataSources = (dataSources: string[]) => {
-    if(!isValidDataSources(dataSources)) {
-      throw new Error('Data sources should be an array with one or more of: oa, osm, wof, gn')
-    }
-    this._searchObject.dataSources = dataSources
-    return this
-  }
-
-  // Restrict search to a specific layer
-  setLayers = (layers: string[]) => {
-    if(!isValidLayers(layers)) {
-      throw new Error('Data sources should be an array with one or more of: venue, address, street, neighbourhood, borough, localadmin, locality, county, macrocounty, region, macroregion, country, coarse')
-    }
-    this._searchObject.layers = layers
-    return this
-  }
+  setSearchTerm = parameterSet.setSearchTerm
+  setFocusPoint = parameterSet.setFocusPoint
+  setResultsLimit = parameterSet.setResultsLimit
+  setBoundaryCountry = parameterSet.setBoundaryCountry
+  setBoundaryRectangle = parameterSet.setBoundaryRectangle
+  setBoundaryCircle = parameterSet.setBoundaryCircle
+  setBoundaryAdminArea = parameterSet.setBoundaryAdminArea
+  setDataSources = parameterSet.setDataSources
+  setLayers = parameterSet.setLayers
 
   execute = () => {
     const query = buildSearchQueryString(this._searchObject)

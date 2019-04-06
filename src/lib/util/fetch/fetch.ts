@@ -8,6 +8,10 @@ export const search = (baseUrl: string, queryString: string) => {
   return fetchGet(`${baseUrl}${SEARCH_ENDPOINT}`, queryString)
 }
 
+export const autocomplete = (baseUrl: string, queryString: string) => {
+  return fetchGet(`${baseUrl}${SEARCH_ENDPOINT}`, queryString)
+}
+
 // Fetch helpers
 const checkResponse = (response: any) => {
   return response.ok
