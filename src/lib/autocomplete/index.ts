@@ -35,15 +35,12 @@ class Autocomplete {
     this._baseUrl = config.peliasUrl
   }
 
-  setSearchTerm = parameterSet.setSearchTerm
-  setFocusPoint = parameterSet.setFocusPoint
-  setResultsLimit = parameterSet.setResultsLimit
-  setBoundaryCountry = parameterSet.setBoundaryCountry
-  setBoundaryRectangle = parameterSet.setBoundaryRectangle
-  setBoundaryCircle = parameterSet.setBoundaryCircle
-  setBoundaryAdminArea = parameterSet.setBoundaryAdminArea
-  setDataSources = parameterSet.setDataSources
-  setLayers = parameterSet.setLayers
+  setSearchTerm = parameterSet.setSearchTerm.bind(this, '_autocompleteObject')
+  setFocusPoint = parameterSet.setFocusPoint.bind(this, '_autocompleteObject')
+  setBoundaryCountry = parameterSet.setBoundaryCountry.bind(this, '_autocompleteObject')
+  setBoundaryRectangle = parameterSet.setBoundaryRectangle.bind(this, '_autocompleteObject')
+  setDataSources = parameterSet.setDataSources.bind(this, '_autocompleteObject')
+  setLayers = parameterSet.setLayers.bind(this, '_autocompleteObject')
 
   execute = () => {
     const query = buildAutocompleteQueryString(this._autocompleteObject)

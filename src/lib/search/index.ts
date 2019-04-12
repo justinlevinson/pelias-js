@@ -40,15 +40,15 @@ class Search {
     this._baseUrl = config.peliasUrl
   }
 
-  setSearchTerm = parameterSet.setSearchTerm
-  setFocusPoint = parameterSet.setFocusPoint
-  setResultsLimit = parameterSet.setResultsLimit
-  setBoundaryCountry = parameterSet.setBoundaryCountry
-  setBoundaryRectangle = parameterSet.setBoundaryRectangle
-  setBoundaryCircle = parameterSet.setBoundaryCircle
-  setBoundaryAdminArea = parameterSet.setBoundaryAdminArea
-  setDataSources = parameterSet.setDataSources
-  setLayers = parameterSet.setLayers
+  setSearchTerm = parameterSet.setSearchTerm.bind(this, '_searchObject')
+  setFocusPoint = parameterSet.setFocusPoint.bind(this, '_searchObject')
+  setResultsLimit = parameterSet.setResultsLimit.bind(this, '_searchObject')
+  setBoundaryCountry = parameterSet.setBoundaryCountry.bind(this, '_searchObject')
+  setBoundaryRectangle = parameterSet.setBoundaryRectangle.bind(this, '_searchObject')
+  setBoundaryCircle = parameterSet.setBoundaryCircle.bind(this, '_searchObject')
+  setBoundaryAdminArea = parameterSet.setBoundaryAdminArea.bind(this, '_searchObject')
+  setDataSources = parameterSet.setDataSources.bind(this, '_searchObject')
+  setLayers = parameterSet.setLayers.bind(this, '_searchObject')
 
   execute = () => {
     const query = buildSearchQueryString(this._searchObject)

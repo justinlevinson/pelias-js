@@ -8,7 +8,7 @@ export const POST = "POST"
 
 // URLs
 export const SEARCH_ENDPOINT = "/v1/search?"
-export const SEARCH_ENDPOINT = "/v1/autocomplete?"
+export const AUTOCOMPLETE_ENDPOINT = "/v1/autocomplete?"
 
 // Query string params
 export const QS_TEXT = "text"
