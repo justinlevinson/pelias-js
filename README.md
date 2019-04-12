@@ -180,7 +180,7 @@ requests are throttled to one per 500ms. Not all search fields are included, how
 - data sources
 - layers
 
-Official Pelias docs are at: https://github.com/pelias/documentation/blob/master/search.md
+Official Pelias docs are at: https://github.com/pelias/documentation/blob/master/autocomplete.md
 
 ```
 client.autocomplete
