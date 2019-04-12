@@ -2,7 +2,7 @@
 A JavaScript client making it easy to access the functionality on a Pelias geocoder without getting down and nerdy
 with the API details. Less coding, more geocoding.
 
-Under heavy development. Standard forward geocoding is implemented, the rest will be coming soon. 
+Under heavy development. Standard forward geocoding and autocomplete are implemented, the rest will be coming soon. 
 
 [ circa 1993 underconstruction.gif ]
 
@@ -168,6 +168,26 @@ Limits number of results returned. Defaults to 10. Accepts an integer.
 ```
 client.search
   .setResultsLimit(10)
+```
+
+## API: Autocomplete - autocomplete search
+Autocomplete works nearly identically to `search`. As it is meant to be used in UI elements, 
+requests are throttled to one per 500ms. Not all search fields are included, however, only:
+- term
+- focus point
+- boundary country
+- boundary rectangle
+- data sources
+- layers
+
+Official Pelias docs are at: https://github.com/pelias/documentation/blob/master/autocomplete.md
+
+```
+client.autocomplete
+  .setLayers(['address', 'borough'])
+  .setSearchTerm('ymca')
+  .setFocusPoint({lat: "45.523064", lon: "-122.676483"})
+  .execute()
 ```
 
 ## License
