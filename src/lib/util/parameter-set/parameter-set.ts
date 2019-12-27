@@ -8,8 +8,10 @@ import {
   isNumeric,
   isValidBoundaryCircle,
   isValidBoundaryRectangle,
-  isValidDataSources, isValidLayers,
-  isValidString
+  isValidDataSources,
+  isValidLayers,
+  isValidString,
+  isValidGids
 } from "../validate/validate";
 
 import { IConfig, IBoundaryCircle, ICoordinate, IBoundaryRectangle } from '../../interfaces'
@@ -93,3 +95,12 @@ export const setLayers = function(objectKey: string, layers: string[]) {
   this[objectKey].layers = layers
   return this
 }
+
+// Set ids 
+export const setIds = function(objectKey: string, ids: string[]) {
+  if (!isValidGids(ids)) {
+    throw new Error("Ids must be valid gids");
+  }
+  this[objectKey].ids = ids;
+  return this;
+};

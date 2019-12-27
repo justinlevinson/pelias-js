@@ -9,6 +9,7 @@ export const POST = "POST"
 // URLs
 export const SEARCH_ENDPOINT = "/v1/search?"
 export const AUTOCOMPLETE_ENDPOINT = "/v1/autocomplete?"
+export const PLACE_ENDPOINT = "/v1/place?"
 
 // Query string params
 export const QS_TEXT = "text"
@@ -27,12 +28,17 @@ export const QS_BOUNDARY_CIRCLE_RADIUS = "boundary.circle.radius"
 export const QS_BOUNDARY_ADMIN_AREA = "boundary.gid"
 export const QS_DATA_SOURCES = "sources"
 export const QS_LAYERS = "layers"
+export const QS_IDS = "ids";
 
 // Data sources
-export const DATA_SOURCE_OPENSTREETMAP = "osm"
-export const DATA_SOURCE_OPENADDRESSES = "oa"
-export const DATA_SOURCE_WHOSONFIRST = "wof"
-export const DATA_SOURCE_GEONAMES = "gn"
+export const DATA_SOURCE_OSM = "osm"
+export const DATA_SOURCE_OA = "oa"
+export const DATA_SOURCE_WOF = "wof"
+export const DATA_SOURCE_GN = "gn"
+export const DATA_SOURCE_OPENSTREETMAP = "openstreetmap"
+export const DATA_SOURCE_OPENADDRESSES = "openaddresses";
+export const DATA_SOURCE_WHOSONFIRST = "whosonfirst"
+export const DATA_SOURCE_GEONAMES = "geonames";
 
 // Layers
 export const PLACE_TYPE_ADDRESS = "address"
