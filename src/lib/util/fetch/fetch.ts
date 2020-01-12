@@ -2,7 +2,11 @@
  * Fetch utilities
  */
 
-import {AUTOCOMPLETE_ENDPOINT, SEARCH_ENDPOINT} from '../../constants'
+import {
+  AUTOCOMPLETE_ENDPOINT,
+  SEARCH_ENDPOINT,
+  PLACE_ENDPOINT
+} from "../../constants";
 
 export const search = (baseUrl: string, queryString: string) => {
   return fetchGet(`${baseUrl}${SEARCH_ENDPOINT}`, queryString)
@@ -11,6 +15,10 @@ export const search = (baseUrl: string, queryString: string) => {
 export const autocomplete = (baseUrl: string, queryString: string) => {
   return throttledFetchGet(500, `${baseUrl}${AUTOCOMPLETE_ENDPOINT}`, queryString)
 }
+
+export const place = (baseUrl: string, queryString: string) => {
+  return fetchGet(`${baseUrl}${PLACE_ENDPOINT}`, queryString);
+};
 
 // Fetch helpers
 const checkResponse = (response: any) => {

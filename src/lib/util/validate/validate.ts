@@ -74,7 +74,11 @@ export const isValidDataSources = (value: any) => {
     Constants.DATA_SOURCE_GEONAMES,
     Constants.DATA_SOURCE_OPENADDRESSES,
     Constants.DATA_SOURCE_OPENSTREETMAP,
-    Constants.DATA_SOURCE_WHOSONFIRST
+    Constants.DATA_SOURCE_WHOSONFIRST,
+    Constants.DATA_SOURCE_GN,
+    Constants.DATA_SOURCE_OA,
+    Constants.DATA_SOURCE_OSM,
+    Constants.DATA_SOURCE_WOF
   ]
   if (!Array.isArray(value)) return false
   if (value.length === 0) return false
@@ -116,4 +120,26 @@ export const isValidLayers = (value: any) => {
     return isValidArray && typeof layer === 'string' && validLayers.includes(layer.toLowerCase())
   }, true)
 
+}
+
+const isValidGid = (gid: string) => {
+  const parts = gid.split(":");
+
+  if (parts.length < 3) {
+    return false;
+  }
+
+  const [source, layer] = parts;
+  const id = parts.splice(2).join(":");
+
+  return isValidDataSources([source]) && isValidLayers([layer]) && isValidString(id);
+}
+
+export const isValidGids = (value: any) => {
+  if (!Array.isArray(value)) return false;
+  if (value.length === 0) return false;
+
+  return value.reduce((isValidArray, gid: string) => {
+    return isValidArray && typeof gid === "string" && isValidGid(gid);
+  }, true);
 }

@@ -190,6 +190,17 @@ client.autocomplete
   .execute()
 ```
 
+## API: Place - endpoint for details
+When you know an identification number and the source it came from, you can use Pelias to get details on the location.
+
+Official Pelias docs are at: https://github.com/pelias/documentation/blob/master/place.md
+
+```
+client.place
+  .setIds(['openstreetmap:venue:relation/9194723'])
+  .execute()
+```
+
 ## License
 GPLv3
 
